@@ -31,6 +31,10 @@ app.listen(process.env.PORT, () => {
 });
 
 //rutas 
-app.use('/api/usuarios', require('./routes/usuarios.route'));
-app.use('/api/especialidades', require('./routes/especialidad.route'));
-app.use('/api/login', require('./routes/auth.route'));
+app.use('/api/login', require('./routes/auth.routes'));
+app.use('/api/usuarios', require('./routes/usuarios.routes'));
+app.use('/api/datosGeneralesUsuarios', require('./routes/datosGeneralesUser.routes'));
+app.use('/api/especialidades', require('./routes/especialidad.routes'));
+
+app.use('/api/categorias', require('./routes/categoria.routes'));
+app.use('/api/productos', require('./routes/producto.routes'));

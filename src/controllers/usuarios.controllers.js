@@ -14,7 +14,6 @@ const getUsuarios = async(req, res) => {
     res.json({
         ok: true,
         mesage: 'Todos los usuarios',
-        id: req.id,
         usuarios: usuarios
     });
 

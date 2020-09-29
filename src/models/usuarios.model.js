@@ -10,7 +10,7 @@ const UsuarioSchema = Schema({
     role: { type: String, required: true, default: 'Secrt_Role' },
     password: { type: String, required: true },
     img: { type: String },
-    especialidad: { type: Schema.ObjectId, ref: "Especialidad", required: true },
+    especialidad: { type: Schema.Types.ObjectId, ref: 'Especialidad' },
 }, {
     timestamps: true,
     versionKey: false

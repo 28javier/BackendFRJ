@@ -24,7 +24,7 @@ router.post('/', [
     check('apellido1', 'El primer apellido es obligatorio').not().isEmpty(),
     check('apellido2', 'El segundo apellido es obligatorio').not().isEmpty(),
     check('password', 'El password es obligatorio').not().isEmpty(),
-    check('especialidad', 'La especialidad es obligatoria').not().isEmpty(),
+    check('especialidad', 'El id de la especialidad no es valido').isMongoId(),
     check('email', 'El email es obligatorio').isEmail(),
     validarCampo
 ], createUsuarios);
@@ -36,7 +36,7 @@ router.put('/:id', [
     check('apellido1', 'El primer apellido es obligatorio').not().isEmpty(),
     check('apellido2', 'El segundo apellido es obligatorio').not().isEmpty(),
     check('role', 'El role es obligatorio').not().isEmpty(),
-    check('especialidad', 'La especialidad es obligatoria').not().isEmpty(),
+    check('especialidad', 'El id de la especialidad no es valido').isMongoId(),
     check('email', 'El email es obligatorio').isEmail(),
 ], updateUsuario);
 
