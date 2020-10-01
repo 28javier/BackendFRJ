@@ -8,26 +8,48 @@ const { generarJWT } = require('../helpers/jwt');
 
 const getUsuarios = async(req, res) => {
 
-
-    const usuarios = await Usuario.find()
-        .populate('especialidad', 'name');
-    res.json({
-        ok: true,
-        mesage: 'Todos los usuarios',
-        usuarios: usuarios
-    });
+    try {
+        const usuarios = await Usuario.find()
+            .populate('especialidad', 'name');
+        res.json({
+            ok: true,
+            mesage: 'Todos los usuarios',
+            usuarios: usuarios
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            message: 'Error inesperado... revisar logs'
+        });
+    }
 
 };
 
 const getUsuarioBy = async(req, res) => {
-
-    const usuario = await Usuario.findById(req.params.id)
-        .populate('especialidad', 'name');
-    res.status(200).json({
-        ok: true,
-        message: 'Usuario por Id',
-        usuario: usuario
-    });
+    const id = req.params.id;
+    try {
+        const usuarioID = await Usuario.findById(id);
+        if (!usuarioID) {
+            res.status(400).json({
+                ok: false,
+                message: 'No existe una usuario con ese ID'
+            });
+        }
+        const usuario = await Usuario.findById(id)
+            .populate('especialidad', 'name');
+        res.status(200).json({
+            ok: true,
+            message: 'Usuario por Id',
+            usuario: usuario
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            message: 'Error inesperado... revisar logs'
+        });
+    }
 };
 
 

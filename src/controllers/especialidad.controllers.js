@@ -5,13 +5,21 @@ const Especialidad = require('../models/especialidad.model');
 
 const getEspecialidad = async(req, res) => {
 
-    const especialidad = await Especialidad.find()
-        .populate('usuario', 'nombre1 apellido1 email');
-    res.status(200).json({
-        ok: true,
-        mesage: 'Todas las especialidades',
-        especialidad: especialidad
-    });
+    try {
+        const especialidad = await Especialidad.find()
+            .populate('usuario', 'nombre1 apellido1 email');
+        res.status(200).json({
+            ok: true,
+            mesage: 'Todas las especialidades',
+            especialidad: especialidad
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            message: 'Error inesperado... revisar logs'
+        });
+    }
 };
 
 

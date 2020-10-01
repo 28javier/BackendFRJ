@@ -7,7 +7,6 @@ const Categoria = require('../models/categoria.model');
 const getCategorias = async(req, res = response) => {
 
 
-
     try {
         const categoria = await Categoria.find()
             .populate('usuario', 'email');

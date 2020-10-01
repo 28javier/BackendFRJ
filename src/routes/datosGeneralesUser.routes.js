@@ -30,7 +30,7 @@ router.post('/', [
     check('tipoDeSangre', 'El tipo de sangre debe ser obligatorio').not().isEmpty(),
     check('direcciones', 'La direccion debe ser obligatorio').not().isEmpty(),
     check('celulares', 'El # de celular debe ser obligatorio').not().isEmpty(),
-    check('usuario', 'El usuario debe ser obligatorio').isMongoId(),
+    check('usuario', 'El ID del usuario no es valido').isMongoId(),
     validarCampo
 ], createDatosGeneralesUser);
 router.put('/:id', validarJWT, updateDatosGeneralesUser);
