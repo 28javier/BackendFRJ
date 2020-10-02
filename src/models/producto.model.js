@@ -9,6 +9,8 @@ const ProductoSchema = Schema({
     stockProducto: { type: Number, required: true },
     precioProducto: { type: Number, required: true, default: 0.00 },
     descripcionProducto: { type: String, required: true },
+    imgProducto: { type: String },
+
 
     usuario: { type: Schema.Types.ObjectId, ref: 'Usuario', required: true },
     categoria: { type: Schema.Types.ObjectId, ref: 'Categoria', required: true }

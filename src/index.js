@@ -38,3 +38,5 @@ app.use('/api/especialidades', require('./routes/especialidad.routes'));
 
 app.use('/api/categorias', require('./routes/categoria.routes'));
 app.use('/api/productos', require('./routes/producto.routes'));
+
+app.use('/api/pacientes', require('./routes/paciente.routes'));

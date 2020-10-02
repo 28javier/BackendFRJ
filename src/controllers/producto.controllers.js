@@ -1,4 +1,4 @@
-const { request, response } = require('express');
+const { response } = require('express');
 const Producto = require('../models/producto.model');
 
 
