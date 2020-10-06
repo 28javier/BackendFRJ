@@ -1,4 +1,4 @@
-const { response } = require('express');
+// const { response } = require('express');
 const bcrypt = require('bcryptjs');
 
 const Usuario = require('../models/usuarios.model');
@@ -7,14 +7,24 @@ const { generarJWT } = require('../helpers/jwt');
 
 
 const getUsuarios = async(req, res) => {
+    const desde = Number(req.query.desde) || 0;
 
     try {
-        const usuarios = await Usuario.find()
-            .populate('especialidad', 'name');
+        // const usuarios = await Usuario.find()
+        //     .populate('especialidad', 'name')
+        //     .skip(desde).limit(5);
+        // const totalUsuario = await Usuario.count();
+        const [usuarios, totalUsuario] = await Promise.all([
+            Usuario.find()
+            .populate('especialidad', 'name')
+            .skip(desde).limit(5),
+            Usuario.countDocuments()
+        ]);
         res.json({
             ok: true,
             mesage: 'Todos los usuarios',
-            usuarios: usuarios
+            usuarios: usuarios,
+            totalUsuario: totalUsuario
         });
     } catch (error) {
         console.log(error);
@@ -31,7 +41,7 @@ const getUsuarioBy = async(req, res) => {
     try {
         const usuarioID = await Usuario.findById(id);
         if (!usuarioID) {
-            res.status(400).json({
+            return res.status(400).json({
                 ok: false,
                 message: 'No existe una usuario con ese ID'
             });
@@ -54,7 +64,7 @@ const getUsuarioBy = async(req, res) => {
 
 
 
-const createUsuarios = async(req, res = response) => {
+const createUsuarios = async(req, res) => {
 
     const { nombre1, nombre2, apellido1, apellido2, password, email, especialidad } = req.body;
 
@@ -91,12 +101,12 @@ const createUsuarios = async(req, res = response) => {
     }
 };
 
-const updateUsuario = async(req, res = response) => {
+const updateUsuario = async(req, res) => {
     const id = req.params.id;
     try {
         const usuarioDB = await Usuario.findById(id);
         if (!usuarioDB) {
-            res.status(400).json({
+            return res.status(400).json({
                 ok: false,
                 message: 'No existe un usuario con ese ID'
             });
@@ -131,12 +141,11 @@ const updateUsuario = async(req, res = response) => {
 
 const deleteUsuario = async(req, res) => {
     const id = req.params.id;
-    // const usuario = await Usuario.findByIdAndDelete(req.params.id);
     try {
         // se verifica si existe un usuario a eliminar
         const usuarioDB = await Usuario.findById(id);
         if (!usuarioDB) {
-            res.status(400).json({
+            return res.status(400).json({
                 ok: false,
                 message: 'No existe un usuario con ese ID'
             });
@@ -162,4 +171,4 @@ module.exports = {
     createUsuarios,
     updateUsuario,
     deleteUsuario
-}
+};

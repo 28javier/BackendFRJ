@@ -1,32 +1,37 @@
-const { response } = require('express');
+// const { response } = require('express'); 
 const Producto = require('../models/producto.model');
 
 
 
 
-const getProductos = async(req, res = response) => {
-    try {
+const getProductos = async(req, res) => {
 
-        const productos = await Producto.find()
-            .populate('categoria', 'nombreCategoria');
+    const desde = Number(req.query.desde) || 0;
 
-        res.status(200).json({
-            ok: true,
-            message: 'Datos Generales del Producto',
-            producto: productos
+    // const productos = await Producto.find()
+    //     .populate('usuario', 'email')
+    //     .populate('categoria', 'nombreCategoria');
+    const [productos, totalProductos] = await Promise.all([
+        Producto.find()
+        .populate('usuario', 'email')
+        .populate('categoria', 'nombreCategoria')
+        .skip(desde)
+        .limit(5),
+        Producto.countDocuments()
+    ]);
 
-        });
+    res.status(200).json({
+        ok: true,
+        message: 'Datos Generales del Producto',
+        producto: productos,
+        totalProductos: totalProductos
 
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            message: 'Error inesperado... revisar logs'
-        });
-    }
+    });
+
+
 };
 
-const getProductoBy = async(req, res = response) => {
+const getProductoBy = async(req, res) => {
 
     const id = req.params.id;
     try {
@@ -38,6 +43,7 @@ const getProductoBy = async(req, res = response) => {
             });
         }
         const productoDB = await Producto.findById(id)
+            .populate('usuario', 'email')
             .populate('categoria', 'nombreCategoria');
 
         res.status(200).json({
@@ -56,10 +62,11 @@ const getProductoBy = async(req, res = response) => {
     }
 };
 
-const createProducto = async(req, res = response) => {
+const createProducto = async(req, res) => {
 
     const id = req.id; //id del usuario
     const {
+        codigoProducto,
         nombreProducto,
         stockProducto,
         precioProducto,
@@ -68,11 +75,11 @@ const createProducto = async(req, res = response) => {
         categoria
     } = req.body;
     try {
-        const existeNombreP = await Producto.findOne({ nombreProducto: nombreProducto });
-        if (existeNombreP) {
+        const existeCodigoP = await Producto.findOne({ codigoProducto: codigoProducto });
+        if (existeCodigoP) {
             return res.status(400).json({
                 ok: false,
-                message: 'El nombre del producto ya esta creado'
+                message: 'Ya esta asigando este codigo a otro producto!!!!!'
             });
         }
         const producto = new Producto({ usuario: id, ...req.body });
@@ -91,7 +98,7 @@ const createProducto = async(req, res = response) => {
     }
 };
 
-const updateProducto = async(req, res = response) => {
+const updateProducto = async(req, res) => {
 
     const idP = req.params.id;
     const id = req.id; //id del usaurio que modifica el producto

@@ -1,18 +1,24 @@
-const { response } = require('express');
+// const { response } = require('express');
 const Paciente = require('../models/paciente.model');
 
 
 
-const getPacientes = async(req, res = response) => {
+const getPacientes = async(req, res) => {
+
     try {
-        const paciente = await Paciente.find()
-            .populate('usuario', 'email');
-
-
+        const desde = Number(req.query.desde) || 0;
+        const [paciente, TotalPaciente] = await Promise.all([
+            Paciente.find()
+            .populate('usuario', 'email')
+            .skip(desde)
+            .limit(5),
+            Paciente.countDocuments()
+        ])
         res.status(200).json({
             ok: true,
             message: 'Obtenidos todos los pacientes',
-            paciente: paciente
+            paciente: paciente,
+            TotalPaciente: TotalPaciente
         });
 
     } catch (error) {
@@ -24,7 +30,7 @@ const getPacientes = async(req, res = response) => {
     }
 };
 
-const getPacienteBy = async(req, res = response) => {
+const getPacienteBy = async(req, res) => {
 
     const id = req.params.id;
     try {
@@ -52,7 +58,7 @@ const getPacienteBy = async(req, res = response) => {
     }
 };
 
-const createPaciente = async(req, res = response) => {
+const createPaciente = async(req, res) => {
 
     const id = req.id; //id del usuario que crea al paciente
     const {
@@ -96,7 +102,7 @@ const createPaciente = async(req, res = response) => {
     }
 };
 
-const updatePaciente = async(req, res = response) => {
+const updatePaciente = async(req, res) => {
     const id = req.id; //id del usaurio que modifica el paciente
     const idP = req.params.id;
     try {

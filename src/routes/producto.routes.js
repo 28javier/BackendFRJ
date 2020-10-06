@@ -26,6 +26,7 @@ router.get('/:id', validarJWT, getProductoBy);
 
 router.post('/', [
     validarJWT,
+    check('codigoProducto', 'El codigo del producto es obligatorio').not().isEmpty(),
     check('nombreProducto', 'El nombre del producto es obligatorio').not().isEmpty(),
     check('stockProducto', 'El stock del producto es obligatorio').not().isEmpty(),
     check('descripcionProducto', 'La descripcion del producto es obligatorio').not().isEmpty(),
