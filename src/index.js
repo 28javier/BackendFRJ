@@ -37,6 +37,10 @@ app.use('/api/productos', require('./routes/producto.routes'));
 app.use('/api/pacientes', require('./routes/paciente.routes'));
 //busquedas
 app.use('/api/todo', require('./routes/busquedas.routes'));
+//imagenes
+app.use('/api/upload', require('./routes/uploads.routes'));
+
+
 
 
 // puerto donde escucha el servidor
