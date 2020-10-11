@@ -6,10 +6,10 @@ const ProductoSchema = Schema({
 
 
     codigoProducto: { type: String, required: true, unique: true },
-    nombreProducto: { type: String, required: true, unique: true },
-    stockProducto: { type: Number, required: true },
+    nombreProducto: { type: String, required: true, unique: false },
+    stockProducto: { type: Number, required: true, unique: false },
     precioProducto: { type: Number, required: true, default: 0.00 },
-    descripcionProducto: { type: String, required: true },
+    descripcionProducto: { type: String, required: true, unique: false },
     img: { type: String },
 
 

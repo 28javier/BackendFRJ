@@ -141,9 +141,9 @@ const deleteCategoria = async(req, res) => {
 
 
 module.exports = {
-    getCategorias,
-    getCategoriaBy,
-    createCategoria,
-    updateCategoria,
-    deleteCategoria
+    getCategorias: getCategorias,
+    getCategoriaBy: getCategoriaBy,
+    createCategoria: createCategoria,
+    updateCategoria: updateCategoria,
+    deleteCategoria: deleteCategoria
 };

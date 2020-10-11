@@ -35,6 +35,8 @@ app.use('/api/categorias', require('./routes/categoria.routes'));
 app.use('/api/productos', require('./routes/producto.routes'));
 // pacientes
 app.use('/api/pacientes', require('./routes/paciente.routes'));
+//consultas
+app.use('/api/evaluacionPaciente', require('./routes/evaluacionPaciente.routes'));
 //busquedas
 app.use('/api/todo', require('./routes/busquedas.routes'));
 //imagenes
