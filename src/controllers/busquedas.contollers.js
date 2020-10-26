@@ -36,7 +36,7 @@ const getDocumentosColecion = async(req, res) => {
     let data = [];
     switch (tabla) {
         case 'usuarios':
-            data = await Usuario.find({ email: regex });
+            data = await Usuario.find({ apellido1: regex });
 
             break;
 

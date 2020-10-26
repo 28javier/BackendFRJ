@@ -16,13 +16,15 @@ const router = Router();
 
 router.get('/', validarJWT, getUsuarios);
 
-router.get('/:id', getUsuarioBy);
+router.get('/:id', validarJWT, getUsuarioBy);
 
 router.post('/', [
+
     check('nombre1', 'El primer nombre es obligatorio').not().isEmpty(),
     check('nombre2', 'El segundo nombre es obligatorio').not().isEmpty(),
     check('apellido1', 'El primer apellido es obligatorio').not().isEmpty(),
     check('apellido2', 'El segundo apellido es obligatorio').not().isEmpty(),
+    check('role', 'El role es obligatorio').not().isEmpty(),
     check('password', 'El password es obligatorio').not().isEmpty(),
     check('especialidad', 'El id de la especialidad no es valido').isMongoId(),
     check('email', 'El email es obligatorio').isEmail(),

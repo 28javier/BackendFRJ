@@ -22,7 +22,7 @@ const getUsuarios = async(req, res) => {
         ]);
         res.json({
             ok: true,
-            mesage: 'Todos los usuarios',
+            message: 'Todos los usuarios',
             usuarios: usuarios,
             totalUsuario: totalUsuario
         });
@@ -88,7 +88,7 @@ const createUsuarios = async(req, res) => {
         const token = await generarJWT(usuario.id);
         res.status(200).json({
             ok: true,
-            mesage: 'Usuario creado Correctamente',
+            message: 'Usuario creado Correctamente',
             usuario: usuario,
             token: token
         });

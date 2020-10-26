@@ -12,18 +12,18 @@ const { getEspecialidad, getEspecialidadBy, createEspecialidad, updateEspecialid
 const router = Router();
 
 
-router.get('/', validarJWT, getEspecialidad);
+router.get('/', getEspecialidad);
 
-router.get('/:id', validarJWT, getEspecialidadBy);
+router.get('/:id', getEspecialidadBy);
 
 router.post('/', [
-    validarJWT,
+
     check('name', 'El nombre de la especialidad es obligatorio').not().isEmpty(),
     validarCampo
 ], createEspecialidad);
 
 router.put('/:id', [
-    validarJWT,
+
     check('name', 'El nombre de la especialidad es obligatorio').not().isEmpty(),
     validarCampo
 ], updateEspecialidad);
