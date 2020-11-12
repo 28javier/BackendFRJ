@@ -1,9 +1,5 @@
-const { request, response } = require('express');
+const { response } = require('express');
 const DatosGeneralesUser = require('../models/datosGeneralesUser.model');
-
-
-
-
 
 const getDatosGeneralesUserBy = async(req, res = response) => {
 
@@ -22,7 +18,7 @@ const getDatosGeneralesUserBy = async(req, res = response) => {
         res.status(200).json({
             ok: true,
             message: 'Datos Generales del Usuario',
-            datosGenerales
+            datosGenerales: datosGenerales
 
         });
 
@@ -38,15 +34,22 @@ const getDatosGeneralesUserBy = async(req, res = response) => {
 const createDatosGeneralesUser = async(req, res = response) => {
 
     // const id = req.id;
-    const { cedula, sexo, fechaNacimiento, estadoCivil, tipoDeSangre, direcciones, celulares } = req.body;
+    const { cedula, sexo, fechaNacimiento, estadoCivil, tipoDeSangre, direcciones, celulares, usuario } = req.body;
     try {
         const existeCedula = await DatosGeneralesUser.findOne({ cedula: cedula });
-        if (existeCedula) {
+        const existeIdUsuario = await DatosGeneralesUser.findOne({ usuario: usuario });
+        if (existeCedula || existeIdUsuario) {
             return res.status(400).json({
                 ok: false,
-                message: 'No se puede registrar los datos por que la cedula ya esta en uso',
+                message: 'Ya esta esta cédula registrada o el usuario ya tiene sus datos generales creado',
             });
         }
+        // else if (existeIdUsuario) {
+        //     return res.status(400).json({
+        //         ok: false,
+        //         message: 'Ya tienes datos generales Ingresados',
+        //     });
+        // }
         const datosGenerales = new DatosGeneralesUser({...req.body });
         const datosGeneralesDB = await datosGenerales.save();
         res.status(200).json({

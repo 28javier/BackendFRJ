@@ -6,6 +6,7 @@ const { validarCampo } = require('../middlewares/validar-campos');
 
 const {
     getPacientes,
+    getPacientesPa,
     getPacienteBy,
     createPaciente,
     updatePaciente,
@@ -17,6 +18,7 @@ const {
 const router = Router();
 
 router.get('/', getPacientes);
+router.get('/paginado', getPacientesPa);
 router.get('/:id', getPacienteBy);
 router.post('/', [
     validarJWT,
@@ -25,14 +27,14 @@ router.post('/', [
     check('apellidoP', 'El primer apellido del paciente es obligatorio').not().isEmpty(),
     check('apellidoP2', 'El segundo apellido del paciente es obligatorio').not().isEmpty(),
     check('cedulaP', 'El cedula del paciente es obligatorio').not().isEmpty(),
-    check('sexoP', 'El genero del paciente es obligatorio').not().isEmpty(),
-    check('edadP', 'La edad del paciente es obligatorio').not().isEmpty(),
-    check('fechaNacimientoP', 'La fecha de nacimiento del paciente es obligatorio').not().isEmpty(),
-    check('estadoCivilP', 'El estado civil del paciente es obligatorio').not().isEmpty(),
-    check('tipoDeSangreP', 'El tipo de sangre del paciente es obligatorio').not().isEmpty(),
-    check('numeroDiscapacidadP', 'El numero de discapacidad del paciente es obligatorio').not().isEmpty(),
-    check('direccionesP', 'Las direccion del paciente es obligatorio').not().isEmpty(),
-    check('celularesP', 'El numero telefonico del paciente es obligatorio').not().isEmpty(),
+    // check('sexoP', 'El genero del paciente es obligatorio').not().isEmpty(),
+    // check('edadP', 'La edad del paciente es obligatorio').not().isEmpty(),
+    // check('fechaNacimientoP', 'La fecha de nacimiento del paciente es obligatorio').not().isEmpty(),
+    // check('estadoCivilP', 'El estado civil del paciente es obligatorio').not().isEmpty(),
+    // check('tipoDeSangreP', 'El tipo de sangre del paciente es obligatorio').not().isEmpty(),
+    // check('numeroDiscapacidadP', 'El numero de discapacidad del paciente es obligatorio').not().isEmpty(),
+    // check('direccionesP', 'Las direccion del paciente es obligatorio').not().isEmpty(),
+    // check('celularesP', 'El numero telefonico del paciente es obligatorio').not().isEmpty(),
     validarCampo
 ], createPaciente);
 router.put('/:id', [
@@ -42,14 +44,14 @@ router.put('/:id', [
     check('apellidoP', 'El primer apellido del paciente es obligatorio').not().isEmpty(),
     check('apellidoP2', 'El segundo apellido del paciente es obligatorio').not().isEmpty(),
     check('cedulaP', 'El cedula del paciente es obligatorio').not().isEmpty(),
-    check('sexoP', 'El genero del paciente es obligatorio').not().isEmpty(),
-    check('edadP', 'La edad del paciente es obligatorio').not().isEmpty(),
-    check('fechaNacimientoP', 'La fecha de nacimiento del paciente es obligatorio').not().isEmpty(),
-    check('estadoCivilP', 'El estado civil del paciente es obligatorio').not().isEmpty(),
-    check('tipoDeSangreP', 'El tipo de sangre del paciente es obligatorio').not().isEmpty(),
-    check('numeroDiscapacidadP', 'El numero de discapacidad del paciente es obligatorio').not().isEmpty(),
-    check('direccionesP', 'Las direccion del paciente es obligatorio').not().isEmpty(),
-    check('celularesP', 'El numero telefonico del paciente es obligatorio').not().isEmpty(),
+    // check('sexoP', 'El genero del paciente es obligatorio').not().isEmpty(),
+    // check('edadP', 'La edad del paciente es obligatorio').not().isEmpty(),
+    // check('fechaNacimientoP', 'La fecha de nacimiento del paciente es obligatorio').not().isEmpty(),
+    // check('estadoCivilP', 'El estado civil del paciente es obligatorio').not().isEmpty(),
+    // check('tipoDeSangreP', 'El tipo de sangre del paciente es obligatorio').not().isEmpty(),
+    // check('numeroDiscapacidadP', 'El numero de discapacidad del paciente es obligatorio').not().isEmpty(),
+    // check('direccionesP', 'Las direccion del paciente es obligatorio').not().isEmpty(),
+    // check('celularesP', 'El numero telefonico del paciente es obligatorio').not().isEmpty(),
     validarCampo
 ], updatePaciente);
 router.delete('/:id', deletePaciente);

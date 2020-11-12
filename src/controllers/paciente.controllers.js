@@ -3,7 +3,27 @@ const Paciente = require('../models/paciente.model');
 
 
 
+
 const getPacientes = async(req, res) => {
+
+    try {
+        const pacientes = await Paciente.find()
+            .populate('usuario', 'email');
+        res.status(200).json({
+            ok: true,
+            message: 'Obtenidos todos los pacientes',
+            pacientes: pacientes,
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            message: 'Error inesperado... revisar logs'
+        });
+    }
+};
+const getPacientesPa = async(req, res) => {
 
     try {
         const desde = Number(req.query.desde) || 0;
@@ -11,7 +31,7 @@ const getPacientes = async(req, res) => {
             Paciente.find()
             .populate('usuario', 'email')
             .skip(desde)
-            .limit(5),
+            .limit(10),
             Paciente.countDocuments()
         ])
         res.status(200).json({
@@ -72,7 +92,6 @@ const createPaciente = async(req, res) => {
         fechaNacimientoP,
         estadoCivilP,
         tipoDeSangreP,
-        numeroDeDiscapacidad,
         direcionesP,
         celularesP
     } = req.body;
@@ -86,7 +105,6 @@ const createPaciente = async(req, res) => {
         }
         const paciente = new Paciente({ usuario: id, ...req.body });
         const pacienteDB = await paciente.save();
-
         res.status(200).json({
             ok: true,
             message: 'Paciente creado correctamente',
@@ -158,9 +176,10 @@ const deletePaciente = async(req, res) => {
 };
 
 module.exports = {
-    getPacientes,
-    getPacienteBy,
-    createPaciente,
-    updatePaciente,
-    deletePaciente
+    getPacientes: getPacientes,
+    getPacientesPa: getPacientesPa,
+    getPacienteBy: getPacienteBy,
+    createPaciente: createPaciente,
+    updatePaciente: updatePaciente,
+    deletePaciente: deletePaciente
 };

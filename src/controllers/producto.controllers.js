@@ -1,10 +1,29 @@
 // const { response } = require('express'); 
 const Producto = require('../models/producto.model');
 
-
-
-
 const getProductos = async(req, res) => {
+
+    try {
+        const productos = await Producto.find()
+            .populate('usuario', 'email')
+            .populate('categoria', 'nombreCategoria');
+
+        res.status(200).json({
+            ok: true,
+            message: 'Datos Generales del Producto',
+            productos: productos,
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            message: 'Error inesperado... revisar logs'
+        });
+    }
+};
+
+
+const getProductosPa = async(req, res) => {
 
     const desde = Number(req.query.desde) || 0;
 
@@ -156,9 +175,10 @@ const deleteProducto = async(req, res) => {
 
 
 module.exports = {
-    getProductos,
-    getProductoBy,
-    createProducto,
-    updateProducto,
-    deleteProducto
+    getProductos: getProductos,
+    getProductosPa: getProductosPa,
+    getProductoBy: getProductoBy,
+    createProducto: createProducto,
+    updateProducto: updateProducto,
+    deleteProducto: deleteProducto
 };

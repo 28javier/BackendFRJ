@@ -1,12 +1,10 @@
-const { request, response } = require('express');
+const { response } = require('express');
 const Categoria = require('../models/categoria.model');
 
 
 
 
-const getCategorias = async(req, res = response) => {
-
-
+const getCategorias = async(req, res) => {
     try {
         const categoria = await Categoria.find()
             .populate('usuario', 'email');
@@ -15,8 +13,29 @@ const getCategorias = async(req, res = response) => {
             mesage: 'Todas las especialidades',
             categoria: categoria
         });
-
-
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            message: 'Error inesperado... revisar logs'
+        });
+    }
+};
+const getCategoriasPa = async(req, res) => {
+    const desde = Number(req.query.desde) || 0;
+    try {
+        const [categoria, totalCategoria] = await Promise.all([
+            Categoria.find()
+            .populate('usuario', 'email')
+            .skip(desde).limit(5),
+            Categoria.countDocuments()
+        ]);
+        res.status(200).json({
+            ok: true,
+            mesage: 'Todas las especialidades',
+            categoria: categoria,
+            totalCategoria: totalCategoria
+        });
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -27,7 +46,6 @@ const getCategorias = async(req, res = response) => {
 };
 
 const getCategoriaBy = async(req, res = response) => {
-
     const id = req.params.id;
     try {
         const categoriaID = await Categoria.findById(id);
@@ -44,7 +62,6 @@ const getCategoriaBy = async(req, res = response) => {
             message: 'Datos de la categoria ID',
             categoria: categoriaDB
         });
-
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -96,6 +113,7 @@ const updateCategoria = async(req, res = response) => {
                 message: 'No se encontro la categoria por el Id'
             });
         }
+
         const cambioCategoria = {...req.body, usuario: id }
         const categoriaActualizada = await Categoria.findByIdAndUpdate(idC, cambioCategoria, { new: true });
 
@@ -104,6 +122,7 @@ const updateCategoria = async(req, res = response) => {
             message: 'Datos de la Categoria Modificado',
             categoria: categoriaActualizada
         });
+
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -142,6 +161,7 @@ const deleteCategoria = async(req, res) => {
 
 module.exports = {
     getCategorias: getCategorias,
+    getCategoriasPa: getCategoriasPa,
     getCategoriaBy: getCategoriaBy,
     createCategoria: createCategoria,
     updateCategoria: updateCategoria,

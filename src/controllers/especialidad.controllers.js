@@ -1,10 +1,7 @@
-const { request, response } = require('express');
+const { response } = require('express');
 const Especialidad = require('../models/especialidad.model');
 
-
-
 const getEspecialidad = async(req, res) => {
-
     try {
         const especialidad = await Especialidad.find()
             .populate('usuario', 'nombre1 apellido1 email');
@@ -22,8 +19,33 @@ const getEspecialidad = async(req, res) => {
     }
 };
 
+const getEspecialidadPa = async(req, res) => {
+    const desde = Number(req.query.desde) || 0;
 
-const getEspecialidadBy = async(req, res = response) => {
+    try {
+        const [especialidad, totalEspecialidad] = await Promise.all([
+            Especialidad.find()
+            .populate('usuario', 'nombre1 apellido1 email')
+            .skip(desde).limit(5),
+            Especialidad.countDocuments()
+        ]);
+        res.status(200).json({
+            ok: true,
+            message: 'Todas las especialidades',
+            especialidad: especialidad,
+            totalEspecialidad: totalEspecialidad
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            message: 'Error inesperado... revisar logs'
+        });
+    }
+};
+
+const getEspecialidadBy = async(req, res) => {
 
     const id = req.params.id;
     try {
@@ -52,7 +74,7 @@ const getEspecialidadBy = async(req, res = response) => {
 
 };
 
-const createEspecialidad = async(req, res = response) => {
+const createEspecialidad = async(req, res) => {
 
     const id = req.id; //id del usuario
     const { name } = req.body;
@@ -83,7 +105,7 @@ const createEspecialidad = async(req, res = response) => {
     }
 };
 
-const updateEspecialidad = async(req, res = response) => {
+const updateEspecialidad = async(req, res) => {
 
     const idE = req.params.id;
     const id = req.id; //id del usaurio que modifica la especialidad
@@ -112,7 +134,7 @@ const updateEspecialidad = async(req, res = response) => {
 
 };
 
-const deleteEspecialidad = async(req, res = response) => {
+const deleteEspecialidad = async(req, res) => {
     // const especialidad = await Especialidad.findByIdAndDelete(req.params.id);
     const id = req.params.id;
 
@@ -140,9 +162,10 @@ const deleteEspecialidad = async(req, res = response) => {
 };
 
 module.exports = {
-    getEspecialidad,
-    getEspecialidadBy,
-    createEspecialidad,
-    updateEspecialidad,
-    deleteEspecialidad
+    getEspecialidad: getEspecialidad,
+    getEspecialidadPa: getEspecialidadPa,
+    getEspecialidadBy: getEspecialidadBy,
+    createEspecialidad: createEspecialidad,
+    updateEspecialidad: updateEspecialidad,
+    deleteEspecialidad: deleteEspecialidad
 };

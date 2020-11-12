@@ -12,7 +12,8 @@ const {
     getCategoriaBy,
     createCategoria,
     updateCategoria,
-    deleteCategoria
+    deleteCategoria,
+    getCategoriasPa
 } = require('../controllers/categoria.controllers');
 
 
@@ -20,17 +21,17 @@ const {
 const router = Router();
 
 router.get('/', validarJWT, getCategorias);
+router.get('/paginado', validarJWT, getCategoriasPa);
 router.get('/:id', validarJWT, getCategoriaBy);
 router.post('/', [
     validarJWT,
     check('nombreCategoria', 'El nombre de la categoria es obligatorio').not().isEmpty(),
-    check('descripcionCategoria', 'La descripcion de la categoria es obligatorio').not().isEmpty(),
     validarCampo
 ], createCategoria);
 router.put('/:id', [
     validarJWT,
     check('nombreCategoria', 'El nombre de la categoria es obligatorio').not().isEmpty(),
-    check('descripcionCategoria', 'La descripcion de la categoria es obligatorio').not().isEmpty(),
+    // check('descripcionCategoria', 'La descripcion de la categoria es obligatorio').not().isEmpty(),
     validarCampo
 ], updateCategoria);
 router.delete('/:id', validarJWT, deleteCategoria);

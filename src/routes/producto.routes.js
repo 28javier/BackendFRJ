@@ -9,6 +9,7 @@ const { validarCampo } = require('../middlewares/validar-campos');
 
 const {
     getProductos,
+    getProductosPa,
     getProductoBy,
     createProducto,
     updateProducto,
@@ -19,8 +20,8 @@ const {
 const router = Router();
 
 
-
 router.get('/', validarJWT, getProductos);
+router.get('/paginado', validarJWT, getProductosPa);
 
 router.get('/:id', validarJWT, getProductoBy);
 
@@ -29,7 +30,7 @@ router.post('/', [
     check('codigoProducto', 'El codigo del producto es obligatorio').not().isEmpty(),
     check('nombreProducto', 'El nombre del producto es obligatorio').not().isEmpty(),
     check('stockProducto', 'El stock del producto es obligatorio').not().isEmpty(),
-    check('descripcionProducto', 'La descripcion del producto es obligatorio').not().isEmpty(),
+    // check('descripcionProducto', 'La descripcion del producto es obligatorio').not().isEmpty(),
     check('categoria', 'El ID de la Categoria no es valido').isMongoId(),
     validarCampo
 ], createProducto);

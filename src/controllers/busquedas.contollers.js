@@ -46,7 +46,7 @@ const getDocumentosColecion = async(req, res) => {
             break;
 
         case 'pacientes':
-            data = await Paciente.find({ nombreP: regex });
+            data = await Paciente.find({ apellidoP: regex });
 
             break;
 
@@ -60,12 +60,12 @@ const getDocumentosColecion = async(req, res) => {
 
     res.status(200).json({
         ok: true,
-        resultado: data
+        resultados: data
     });
 }
 
 
 module.exports = {
-    getTodo,
-    getDocumentosColecion
+    getTodo: getTodo,
+    getDocumentosColecion: getDocumentosColecion
 }
