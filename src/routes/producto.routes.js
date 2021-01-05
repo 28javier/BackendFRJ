@@ -11,9 +11,12 @@ const {
     getProductos,
     getProductosPa,
     getProductoBy,
+    listarProducto,
     createProducto,
     updateProducto,
-    deleteProducto
+    deleteProducto,
+    aumentarStockProducto,
+    getImg
 } = require('../controllers/producto.controllers');
 
 
@@ -24,6 +27,11 @@ router.get('/', validarJWT, getProductos);
 router.get('/paginado', validarJWT, getProductosPa);
 
 router.get('/:id', validarJWT, getProductoBy);
+
+router.get('/producto/:nombre?', validarJWT, listarProducto);
+
+router.get('/producto/img/:img', validarJWT, getImg);
+
 
 router.post('/', [
     validarJWT,
@@ -36,6 +44,9 @@ router.post('/', [
 ], createProducto);
 
 router.put('/:id', validarJWT, updateProducto);
+
+router.put('/stock/:id', validarJWT, aumentarStockProducto);
+
 
 router.delete('/:id', validarJWT, deleteProducto);
 

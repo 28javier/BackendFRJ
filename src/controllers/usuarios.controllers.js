@@ -66,15 +66,21 @@ const getUsuarioBy = async(req, res) => {
 
 const createUsuarios = async(req, res) => {
 
-    const { nombre1, nombre2, apellido1, apellido2, password, email, especialidad } = req.body;
+    const { nombre1, nombre2, apellido1, apellido2, password, email, especialidad, cedula } = req.body;
 
 
     try {
+        const existeCedula = await Usuario.findOne({ cedula: cedula });
         const existeEmail = await Usuario.findOne({ email: email });
         if (existeEmail) {
             return res.status(400).json({
                 ok: false,
                 message: 'El email ya existe registrado'
+            });
+        } else if (existeCedula) {
+            return res.status(400).json({
+                ok: false,
+                message: 'La cedula ya esta registrada'
             });
         }
         const usuario = new Usuario(req.body);
@@ -112,7 +118,7 @@ const updateUsuario = async(req, res) => {
             });
         }
         // actualizacion 
-        const { password, email, ...campos } = req.body;
+        const { password, email, cedula, ...campos } = req.body;
         if (usuarioDB.email !== email) {
             const existeEmail = await Usuario.findOne({ email: email });
             if (existeEmail) {
@@ -122,7 +128,17 @@ const updateUsuario = async(req, res) => {
                 });
             }
         }
+        if (usuarioDB.cedula !== cedula) {
+            const existeCedula = await Usuario.findOne({ cedula: cedula });
+            if (existeCedula) {
+                return res.status(400).json({
+                    ok: false,
+                    message: 'Ya existe un usuario con esta cedula'
+                });
+            }
+        }
         campos.email = email;
+        campos.cedula = cedula;
         // atualizadar usuario 
         const usuarioActualizado = await Usuario.findByIdAndUpdate(id, campos, { new: true });
         res.status(200).json({

@@ -11,6 +11,15 @@ const UsuarioSchema = Schema({
     password: { type: String },
     img: { type: String },
     especialidad: { type: Schema.Types.ObjectId, ref: 'Especialidad', required: true },
+    cedula: { type: Number, required: true, uniqued: true },
+    sexo: { type: String, enum: ['Masculino', 'Femenino', 'Otro'] },
+    fechaNacimiento: { type: Date },
+    estadoCivil: { type: String, enum: ['Soltero/a', 'Casado/a', 'Viudo/a', 'Unión-Libre', 'Separado/a', 'Comprometido/a'] },
+    tipoDeSangre: { type: String, enum: ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'] },
+    direccion1: { type: String },
+    direccion2: { type: String },
+    celular1: { type: String },
+    celular2: { type: String },
 }, {
     timestamps: true,
     versionKey: false

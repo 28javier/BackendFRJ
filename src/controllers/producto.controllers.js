@@ -1,5 +1,6 @@
 // const { response } = require('express'); 
 const Producto = require('../models/producto.model');
+var path = require('path');
 
 const getProductos = async(req, res) => {
 
@@ -81,6 +82,38 @@ const getProductoBy = async(req, res) => {
     }
 };
 
+const listarProducto = async(req, res) => {
+    let nombre = req.params.nombre;
+    await Producto.find({ nombreProducto: new RegExp(nombre, 'i') }, (error, productoListado) => {
+        if (error) {
+            res.status(500).json({ ok: false, message: 'Error inesperado... revisar logs' });
+        } else {
+            if (productoListado) {
+                res.status(200).json({ ok: true, message: 'Obtenido los Productos', productos: productoListado });
+            } else {
+                res.status(400).json({ ok: false, message: 'No hay un producto con ese titulo' });
+            }
+        }
+    });
+};
+
+const aumentarStockProducto = async(req, res) => {
+    let id = req.params.id;
+    let data = req.body;
+
+    Producto.findById(id, (error, productoData) => {
+        if (productoData) {
+            Producto.findByIdAndUpdate(id, { stockProducto: parseInt(productoData.stockProducto) + parseInt(data.stockProducto) }, (error, productoEdit) => {
+                if (productoEdit) {
+                    res.status(200).json({ ok: true, message: 'Stock Actualizado', producto: productoEdit });
+                }
+            });
+        } else {
+            res.status(500).json({ ok: false, message: 'Error inesperado... revisar logs' });
+        }
+    });
+};
+
 const createProducto = async(req, res) => {
 
     const id = req.id; //id del usuario
@@ -118,7 +151,6 @@ const createProducto = async(req, res) => {
 };
 
 const updateProducto = async(req, res) => {
-
     const idP = req.params.id;
     const id = req.id; //id del usaurio que modifica el producto
     try {
@@ -129,13 +161,12 @@ const updateProducto = async(req, res) => {
                 message: 'No existe un producto con ese ID'
             });
         }
-        const cambiosProductos = {...req.body, usuario: id }
+        const cambiosProductos = {...req.body, usuario: id };
         const productoDB = await Producto.findByIdAndUpdate(idP, cambiosProductos, { new: true });
         res.status(200).json({
             ok: true,
             message: 'Producto Modificado correctamente',
             producto: productoDB
-
         });
     } catch (error) {
         console.log(error);
@@ -147,9 +178,7 @@ const updateProducto = async(req, res) => {
 };
 
 const deleteProducto = async(req, res) => {
-
     const id = req.params.id;
-
     try {
         const producto = await Producto.findById(id);
         if (!producto) {
@@ -162,7 +191,6 @@ const deleteProducto = async(req, res) => {
         res.status(200).json({
             ok: true,
             message: 'Producto elimado correctamente',
-
         });
     } catch (error) {
         console.log(error);
@@ -173,12 +201,28 @@ const deleteProducto = async(req, res) => {
     }
 };
 
+const getImg = (req, res) => {
+    var img = req.params['img'];
+
+    if (img != "null") {
+        let pathImg = path.join(__dirname, '../uploads/productos/' + img);
+        // const pathImg = path.join(__dirname, `../uploads/${tipo}/${foto}`);
+        res.status(200).sendFile(path.resolve(pathImg));
+    } else {
+        let pathImg = path.join(__dirname, '../uploads/productos/no-img.jpg');
+        res.status(200).sendFile(path.resolve(pathImg));
+    }
+}
+
 
 module.exports = {
     getProductos: getProductos,
     getProductosPa: getProductosPa,
     getProductoBy: getProductoBy,
+    listarProducto: listarProducto,
     createProducto: createProducto,
     updateProducto: updateProducto,
-    deleteProducto: deleteProducto
+    aumentarStockProducto: aumentarStockProducto,
+    deleteProducto: deleteProducto,
+    getImg: getImg
 };

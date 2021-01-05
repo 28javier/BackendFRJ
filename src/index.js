@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 //usuarios del sistema
 app.use('/api/login', require('./routes/auth.routes'));
 app.use('/api/usuarios', require('./routes/usuarios.routes'));
-app.use('/api/datosGeneralesUsuarios', require('./routes/datosGeneralesUser.routes'));
+// app.use('/api/datosGeneralesUsuarios', require('./routes/datosGeneralesUser.routes'));
 app.use('/api/especialidades', require('./routes/especialidad.routes'));
 // productos y categoria
 app.use('/api/categorias', require('./routes/categoria.routes'));
@@ -42,6 +42,10 @@ app.use('/api/evaluacionPaciente', require('./routes/evaluacionPaciente.routes')
 app.use('/api/todo', require('./routes/busquedas.routes'));
 //imagenes
 app.use('/api/upload', require('./routes/uploads.routes'));
+//Ventas y detalles
+app.use('/api/ventas', require('./routes/venta.routes'));
+app.use('/api/detalleVenta', require('./routes/detalleVenta.routes'));
+
 
 
 
