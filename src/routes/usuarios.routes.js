@@ -9,7 +9,7 @@ const { validarCampo } = require('../middlewares/validar-campos');
 
 
 const { getUsuarios, getUsuarioBy, createUsuarios, updateUsuario, deleteUsuario } = require('../controllers/usuarios.controllers');
-const { validarJWT } = require('../middlewares/validar-jwt');
+const { validarJWT, validarAdmin_Role } = require('../middlewares/validar-jwt');
 
 const router = Router();
 

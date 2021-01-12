@@ -2,6 +2,7 @@ const { response } = require('express');
 const { generarJWT } = require('../helpers/jwt');
 const bcrypt = require('bcryptjs');
 const Usuario = require('../models/usuarios.model');
+const { getMenuFrontend } = require('../helpers/menuFrontend');
 
 
 const login = async(req, res = response) => {
@@ -30,7 +31,8 @@ const login = async(req, res = response) => {
         res.status(200).json({
             ok: true,
             message: 'Logueado correctamente',
-            token: token
+            token: token,
+            menu: getMenuFrontend(usuarioDB.role)
         });
 
     } catch (error) {
@@ -54,7 +56,8 @@ const renewToken = async(req, res = response) => {
     res.json({
         ok: true,
         token,
-        usuario
+        usuario,
+        menu: getMenuFrontend(usuario.role)
     });
 
 }

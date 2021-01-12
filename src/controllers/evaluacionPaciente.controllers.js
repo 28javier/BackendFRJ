@@ -2,7 +2,53 @@ const { response } = require('express');
 const EvaluacionPaciente = require('../models/evaluacionPaciente.model');
 
 
+const evolucionPacientes = async(req, res) => {
 
+    try {
+        const evolucionPaciente = await EvaluacionPaciente.find()
+            .populate('usuario', 'email nombre1 nombre2 apellido1 apellido2 especialidad')
+            .populate('paciente', 'nombreP nombreP2 apellidoP apellidoP2 celularesP cedulaP direccionesP');
+
+        res.status(200).json({
+            ok: true,
+            message: 'Datos Generales del Producto',
+            evolucionPaciente: evolucionPaciente,
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            message: 'Error inesperado... revisar logs'
+        });
+    }
+};
+
+const getEvaluacionPa = async(req, res) => {
+
+    const desde = Number(req.query.desde) || 0;
+
+    // const productos = await Producto.find()
+    //     .populate('usuario', 'email')
+    //     .populate('categoria', 'nombreCategoria');
+    const [evaluacionesPaciente, totalEvaluaciones] = await Promise.all([
+        EvaluacionPaciente.find()
+        .populate('usuario', 'email nombre1 nombre2 apellido1 apellido2 especialidad')
+        .populate('paciente', 'nombreP nombreP2 apellidoP apellidoP2 celularesP cedulaP direccionesP')
+        .skip(desde)
+        .limit(30),
+        EvaluacionPaciente.countDocuments()
+    ]);
+
+    res.status(200).json({
+        ok: true,
+        message: 'Datos Generales de las Evaluaciones de los Pacientes',
+        evaluacionPaciente: evaluacionesPaciente,
+        totalEvaluaciones: totalEvaluaciones
+
+    });
+
+
+};
 
 const evaluacionPacienteBy = async(req, res = response) => {
 
@@ -16,7 +62,7 @@ const evaluacionPacienteBy = async(req, res = response) => {
             });
         }
         const evaluacionDB = await EvaluacionPaciente.findById(id)
-            .populate('paciente', 'cedulaP nombreP2 apellidoP, apellidoP2')
+            .populate('paciente', 'cedulaP nombreP nombreP2 apellidoP apellidoP2')
             .populate('usuario', 'email');
         res.status(200).json({
             ok: true,
@@ -114,6 +160,8 @@ const deleteEvaluacionPaciente = async(req, res) => {
 
 
 module.exports = {
+    evolucionPacientes: evolucionPacientes,
+    getEvaluacionPa: getEvaluacionPa,
     evaluacionPacienteBy: evaluacionPacienteBy,
     createEvaluacionPaciente: createEvaluacionPaciente,
     updateEvaluacionPaciente: updateEvaluacionPaciente,

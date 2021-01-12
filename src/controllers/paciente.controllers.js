@@ -8,7 +8,8 @@ const getPacientes = async(req, res) => {
 
     try {
         const pacientes = await Paciente.find()
-            .populate('usuario', 'email');
+            .populate('usuario', 'email')
+        Paciente.countDocuments()
         res.status(200).json({
             ok: true,
             message: 'Obtenidos todos los pacientes',

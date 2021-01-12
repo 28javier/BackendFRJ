@@ -2,6 +2,8 @@ const { Router } = require('express');
 const { validarJWT } = require('../middlewares/validar-jwt');
 const { check } = require('express-validator');
 const {
+    evolucionPacientes,
+    getEvaluacionPa,
     evaluacionPacienteBy,
     createEvaluacionPaciente,
     updateEvaluacionPaciente,
@@ -12,6 +14,8 @@ const {
 
 const router = Router();
 
+router.get('/', validarJWT, evolucionPacientes);
+router.get('/paginado', validarJWT, getEvaluacionPa);
 router.get('/:id', validarJWT, evaluacionPacienteBy);
 router.post('/', [validarJWT,
     check('paciente', 'El ID del paciente no es valido').isMongoId(),
