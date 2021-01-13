@@ -33,6 +33,7 @@ router.post('/', [
 
 router.put('/:id', [
     validarJWT,
+    validarAdmin_Role,
     check('nombre1', 'El primer nombre es obligatorio').not().isEmpty(),
     check('nombre2', 'El segundo nombre es obligatorio').not().isEmpty(),
     check('apellido1', 'El primer apellido es obligatorio').not().isEmpty(),
