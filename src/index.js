@@ -1,5 +1,6 @@
 // importaciones
 require('dotenv').config();
+const path = require('path');
 const express = require('express');
 // const morgan = require('morgan');
 const cors = require('cors');
@@ -52,7 +53,10 @@ app.use('/api/ventas', require('./routes/venta.routes'));
 app.use('/api/detalleVenta', require('./routes/detalleVenta.routes'));
 
 
-
+// Ruta por defecto si se recarga el navegador
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'public/index.html'));
+});
 
 
 // puerto donde escucha el servidor
