@@ -13,8 +13,6 @@ require('dotenv').config();
 // creacion del servidor express
 const app = express();
 
-//base de dato rum
-dbConnection();
 
 
 // mildlewares
@@ -24,6 +22,12 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+
+//base de dato rum
+dbConnection();
+
+// Directorio público
+app.use(express.static('public'));
 
 //rutas
 //usuarios del sistema
