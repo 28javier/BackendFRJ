@@ -13,6 +13,8 @@ const { dbConnection } = require('./database/config');
 // creacion del servidor express
 const app = express();
 
+const port = process.env.PORT || 3000;
+
 
 
 // mildlewares
@@ -55,6 +57,6 @@ app.use('/api/detalleVenta', require('./routes/detalleVenta.routes'));
 
 
 // puerto donde escucha el servidor
-app.listen(process.env.PORT, () => {
-    console.log('Servidor corriendo en el PORT ' + process.env.PORT);
+app.listen(port, () => {
+    console.log('Servidor corriendo en el PORT ' + port);
 });
