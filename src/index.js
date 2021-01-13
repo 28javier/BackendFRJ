@@ -60,3 +60,7 @@ app.use('/api/detalleVenta', require('./routes/detalleVenta.routes'));
 app.listen(process.env.PORT, () => {
     console.log('Servidor corriendo en el PORT ' + process.env.PORT);
 });
+
+
+
+// mongodb+srv://RostroJesus:frj28.@cluster0.wfulv.mongodb.net/FRJBDD?authSource=admin&replicaSet=atlas-i2eq2f-shard-0&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=true
