@@ -27,7 +27,7 @@ app.use(express.urlencoded({ extended: false }));
 dbConnection();
 
 // Directorio público
-app.use(express.static('public'));
+app.use(express.static('./src/public'));
 
 //rutas
 //usuarios del sistema
