@@ -1,10 +1,10 @@
 // importaciones
+require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const moment = require('moment');
 const { dbConnection } = require('./database/config');
-require('dotenv').config();
 
 //--------------------------//
 //configuraciones del sevidor//
