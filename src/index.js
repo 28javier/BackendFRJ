@@ -1,9 +1,8 @@
 // importaciones
 require('dotenv').config();
 const express = require('express');
-const morgan = require('morgan');
+// const morgan = require('morgan');
 const cors = require('cors');
-const moment = require('moment');
 const { dbConnection } = require('./database/config');
 
 //--------------------------//
@@ -20,7 +19,7 @@ const app = express();
 // mildlewares
 // configuracion del cors
 app.use(cors());
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
