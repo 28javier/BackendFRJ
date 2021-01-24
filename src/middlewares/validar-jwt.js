@@ -40,7 +40,8 @@ const validarAdmin_Role = async(req, res, next) => {
                 message: 'El usuario no existe'
             });
         }
-        if ((usuarioDB.role !== 'Admin_Role') || (usuarioDB.role !== 'Secrt_Role')) {
+        // || (usuarioDB.role !== 'Secrt_Role')
+        if (usuarioDB.role !== 'Admin_Role') {
             return res.status(403).json({
                 ok: false,
                 message: 'No tienes privilegios para hacer eso'
