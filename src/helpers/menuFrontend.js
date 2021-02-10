@@ -54,7 +54,7 @@ const getMenuFrontend = (role = 'Medic_Role') => {
             titulo: 'Ventas',
             icono: 'mdi mdi-cash-multiple',
             submenu: [
-                { titulo: 'Venta', url: 'venta' },
+                // { titulo: 'Venta', url: 'venta' },
 
             ]
         }
@@ -65,12 +65,16 @@ const getMenuFrontend = (role = 'Medic_Role') => {
         menu[1].submenu.push({ titulo: 'Especialidad', url: 'especialidad' });
         menu[4].submenu.push({ titulo: 'Categoria', url: 'categoria' });
         menu[5].submenu.push({ titulo: 'Producto', url: 'producto' });
+        menu[6].submenu.push({ titulo: 'Venta', url: 'venta' });
+
     }
     if (role === 'Secrt_Role') {
         menu[0].submenu.push({ titulo: 'Usuario', url: 'usuario' });
         menu[1].submenu.push({ titulo: 'Especialidad', url: 'especialidad' });
         menu[4].submenu.push({ titulo: 'Categoria', url: 'categoria' });
         menu[5].submenu.push({ titulo: 'Producto', url: 'producto' });
+        menu[6].submenu.push({ titulo: 'Venta', url: 'venta' });
+
     }
     return menu;
 };
